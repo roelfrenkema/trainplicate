@@ -1,0 +1,10 @@
+datasets==2.21.0
+Pillow==10.4.0
+prompt_toolkit==3.0.47
+replicate==0.32.1
+termcolor==2.4.0
+torch==2.4.1
+torchvision==0.19.1
+transformers==4.44.2
+llama-cpp-python==0.2.90
+accelerate==0.33.0
