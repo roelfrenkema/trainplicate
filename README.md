@@ -1,10 +1,10 @@
 # trainplicate
 
-A python application to take care of your FLUX training through the replicate API.
+A python application to take care of your FLUX training through the Replicate API.
 
 ## Prerequisites
 
-Get the model [xtuner_llava-phi-3-mini-hf](https://huggingface.co/xtuner/llava-phi-3-mini-hf) from Huggingface. You can use other models ofcause but you will be on your own if you need any help. Rember where you stored the directory you will need it later.
+Get the model [xtuner_llava-phi-3-mini-hf](https://huggingface.co/xtuner/llava-phi-3-mini-hf) from Huggingface. You can use other models ofcause but you will be on your own if you need any help. Remember where you stored the directory you will need it later.
 
 ## Installing.
 
@@ -16,7 +16,7 @@ Run the install file:
 ./install.zsh
 ```
 
-It will setup the environment. If it ever becomes corrupt because you tinkered with is delete and repeat.
+It will setup the environment. If it ever becomes corrupt because you tinkered with it, delete and repeat.
 
 ## Pre run
 
@@ -42,6 +42,7 @@ Now you are all set to run your own set. just create a directory reflecting your
  
 Thats it beautiful people. There are timestamps throughout the output so you can track your script running.
 
-Have fun.
+Have fun. [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q8124DNL)
+
 
 
