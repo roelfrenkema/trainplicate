@@ -14,7 +14,11 @@
 # You should have received a copy of the GNU General Public License 
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
-
+# v1.0.10
+#
+# Updates:
+# - Changed the production of captions to remove linefeeds.
+#
 import os
 import torch
 import argparse
@@ -140,9 +144,8 @@ def create_captions(directory, token, model):
 
         # Get rid of empty lines and replace the prompt by our token.
         generated_text = outputs[0]['generated_text'].replace("Give a description of the image. ", f"{token}, ")
-        lines = generated_text.splitlines()
-        non_empty_lines = [line for line in lines if line.strip()]
-        result = ' '.join(non_empty_lines)
+        # Replace newlines with spaces and remove extra spaces
+        result = ' '.join(generated_text.split())
 
         # Save the result to a file
         with open(os.path.splitext(f"{directory}/{filename}")[0] + ".txt", "w") as f:
