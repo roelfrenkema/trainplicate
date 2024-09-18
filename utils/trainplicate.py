@@ -28,15 +28,8 @@ from PIL import Image, ImageFilter, ImageEnhance
 from transformers import BitsAndBytesConfig, pipeline
 from termcolor import colored
 
-########################################################################
-
 # This should reflect you Replicate, Github and Huggingface username
 owner="roelfrenkema"
-
-# This should be the full path to the directory the model files are in
-mpath="/home/roelf/git/text-generation-webui/models/xtuner_llava-phi-3-mini-hf"
-
-########################################################################
 
 # Define command line argument parser
 parser = argparse.ArgumentParser(description='Train a model')
@@ -107,7 +100,7 @@ def process_images(directory):
 # prompt too.
 # You can change the prompt, but you will then have to change the output
 # replacement too. 
-def create_captions(directory, token, model):
+def create_captions(directory, token):
 
     # Define quantization configuration
     quantization_config = BitsAndBytesConfig(
@@ -116,7 +109,7 @@ def create_captions(directory, token, model):
     )
 
     # Define the model ID
-    model_id = model
+    model_id = "/home/roelf/git/text-generation-webui/models/xtuner_llava-phi-3-mini-hf"
 
     # Create the pipeline
     pipe = pipeline("image-to-text", model=model_id, model_kwargs={"quantization_config": quantization_config, "low_cpu_mem_usage": True})
@@ -140,8 +133,9 @@ def create_captions(directory, token, model):
 
         # Get rid of empty lines and replace the prompt by our token.
         generated_text = outputs[0]['generated_text'].replace("Give a description of the image. ", f"{token}, ")
-        # Replace newlines with spaces and remove extra spaces
-        result = ' '.join(generated_text.split())
+        lines = generated_text.splitlines()
+        non_empty_lines = [line for line in lines if line.strip()]
+        result = ' '.join(non_empty_lines)
 
         # Save the result to a file
         with open(os.path.splitext(f"{directory}/{filename}")[0] + ".txt", "w") as f:
@@ -188,7 +182,7 @@ def create_model(directory,user,description):
 def train_model(directory,user,token):
     hugkey=os.getenv("INFERENCE_WRITE")
     training = replicate.trainings.create(
-        version="ostris/flux-dev-lora-trainer:885394e6a31c6f349dd4f9e6e7ffbabd8d9840ab2559ab78aed6b2451ab2cfef",
+        version="ostris/flux-dev-lora-trainer:7f53f82066bcdfb1c549245a624019c26ca6e3c8034235cd4826425b61e77bec",
         input={
             "input_images": open(f"{directory}/source.zip", "rb"),
             "steps": 1000,
@@ -226,7 +220,7 @@ if __name__ == "__main__":
     process_images(args.name)
     # Step 3 caption images
     time_stamp("Step 3 caption images")
-    create_captions(args.name,args.tok,mpath)
+    create_captions(args.name,args.tok)
     # Step 4 zip images and captions
     time_stamp("Step 4 zip images and captions")
     zip_files(args.name, "source.zip")
